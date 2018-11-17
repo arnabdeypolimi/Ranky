@@ -7,29 +7,31 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, Image, View} from 'react-native';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
 
-type Props = {};
-export default class App extends Component<Props> {
+
+
+export default class App extends Component{
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
+        <Text style={styles.instructions}>Let Start</Text>
+        <Image style={styles.img} source={{uri:"https://arnabdey.co/uploads/1/2/2/6/122619697/img-3152_orig.jpg"}}/>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  img:{
+    width:200,
+    height:200,
+    alignItems:'center'
+  },
+
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -40,10 +42,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+    color:'blue',
   },
 });
