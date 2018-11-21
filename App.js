@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import { StyleSheet, Text, Image, View, FlatList, Button } from 'react-native';
+import { StyleSheet, Text, Image, View, FlatList, TouchableHighlight, Alert} from 'react-native';
 import { PermissionsAndroid } from 'react-native';
 
 
@@ -84,22 +84,50 @@ export default class App extends Component {
     return (R * c / 1000).toFixed(2);
   }
 
+  _onPressButton() {
+    Alert.alert('You tapped the button!')
+  }
+
+  // _onLongPressButton() {
+  //   Alert.alert('You long-pressed the button!')
+  // }
+
   render() {
     if (this.state.isLoading) {
       return (
         <View style={styles.container}>
-          <Text style={styles.welcome}>Welcome to React Native!</Text>
-          <Text style={styles.instructions}>Let Start</Text>
-          <Image style={styles.img} source={{uri:"https://arnabdey.co/uploads/1/2/2/6/122619697/img-3152_orig.jpg"}}/>
+          <Text style={styles.welcome}>Loading..</Text>
+          
+        
         </View>
       );
     } else {
       return (
         <View style={{flex: 1, paddingTop: 20}}>
           <FlatList data={this.state.eventList}
-              renderItem={({item}) => <Button title={item.name + ', dist: ~'
-                  + this.dist(item.latitude, item.longitude) + 'km'
-              }/>}
+              renderItem={({item}) => <View style={{flex:1}}>
+              <TouchableHighlight onPress={this._onPressButton} underlayColor="gray">
+              <View style={{flex:1, flexDirection: 'row'}}>
+               <Image style={styles.img} source={{uri:"https://ranky.olinfo.it/static/"+item.id+".png"}}/>
+               <View style={{flex:3, flexDirection: 'row'}}>
+                
+                <View Style={{flex:1}}>
+                    <View style={{flex:3}}>
+                      <Text style={styles.title}>{item.name}</Text>
+                    </View>
+                    <View style={{flex:1}}>
+                      <Text style={styles.small}>Status:                Distance:{this.dist(item.latitude, item.longitude)}km</Text>
+                    </View>
+                </View>    
+                
+               </View>
+               </View>
+               </TouchableHighlight>
+              </View>
+              // <Button title={item.name + ', dist: ~'
+              //     + this.dist(item.latitude, item.longitude) + 'km'
+              // }/>
+            }
               keyExtractor={({id}) => id} />
         </View>
       );
@@ -109,8 +137,9 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
   img:{
-    width:200,
-    height:200,
+    flex: 1,
+    width:100,
+    height:100,
     alignItems:'center'
   },
 
@@ -126,4 +155,19 @@ const styles = StyleSheet.create({
     margin: 10,
     color:'blue',
   },
+
+  title:{
+    fontFamily:'serif',
+    fontSize:20,
+    color:'black',
+    alignItems:'flex-start',
+    fontWeight:'bold',
+  },
+
+  small:{
+    fontFamily:'serif',
+    fontSize:10,
+    color:'green',
+    alignItems:'flex-end',
+  }
 });
