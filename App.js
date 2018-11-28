@@ -96,9 +96,7 @@ export default class App extends Component {
     if (this.state.isLoading) {
       return (
         <View style={styles.container}>
-          <Text style={styles.welcome}>Loading..</Text>
-          
-        
+          <Text style={styles.welcome}>Loading...</Text>
         </View>
       );
     } else {
