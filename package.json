@@ -2,6 +2,9 @@
   "name": "AwesomeProject",
   "version": "0.0.1",
   "private": true,
+  "rnpm": {
+    "assets": ["./assets/fonts"]
+  },
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest"
@@ -11,7 +14,9 @@
     "@turf/turf": "^5.1.6",
     "geo-distance": "^0.2.0",
     "react": "16.6.1",
-    "react-native": "0.57.5"
+    "react-native": "0.57.5",
+    "react-native-material-ui": "^1.30.1",
+    "react-native-vector-icons": "^6.1.0"
   },
   "devDependencies": {
     "babel-jest": "23.6.0",
