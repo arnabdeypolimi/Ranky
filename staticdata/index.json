@@ -1,32 +1,152 @@
 [
-{
-description: "The 29th International Olympiad in Informatics (IOI 2017) was held in Tehran, Iran from Friday 28th July until Friday 4th August, 2017. The IOI 2017 was hosted and organized by the Iranian Ministry of Education. Iran started participation in the International Olympiad in Informatics in 1992, and since then, it has been an active member of the IOI community. As the host of IOI 2017, Iran worked hard to organize the event, and provide a fun experience and an exciting programming competition for all delegates.",
-finish: 1504828800,
-id: "ioi2017",
-latitude: 35.689197,
-longitude: 51.388974,
-name: "IOI 2017 -- Tehran",
-start: 1504224000,
-url: "http://scoreboard.ioi2017.org"
-},
-{
-description: "Upcoming IOI...",
-finish: 1536364800,
-id: "ioi2018",
-latitude: 36.108824,
-longitude: 140.103652,
-name: "IOI 2018 -- Tsukuba",
-start: 1535760000,
-url: "http://scoreboard.ioi2017.org"
-},
-{
-description: "La XVIII edizione delle Olimpiadi Italiane di Informatica si terrà presso l'ITI G. Marconi di Campobasso dal 13 al 15/09/2018.",
-finish: 1537045200,
-id: "oii2018",
-latitude: 41.560254,
-longitude: 14.662716,
-name: "OII 2018 -- Campobasso",
-start: 1536818400,
-url: "http://scoreboard.ioi2017.org"
-}
+    {
+        "description": "The 29th International Olympiad in Informatics (IOI 2017) was held in Tehran, Iran from Friday 28th July until Friday 4th August, 2017. The IOI 2017 was hosted and organized by the Iranian Ministry of Education. Iran started participation in the International Olympiad in Informatics in 1992, and since then, it has been an active member of the IOI community. As the host of IOI 2017, Iran worked hard to organize the event, and provide a fun experience and an exciting programming competition for all delegates.",
+        "finish": 1504828800,
+        "id": "ioi2017",
+        "latitude": 35.689197,
+        "longitude": 51.388974,
+        "name": "IOI 2017 -- Tehran",
+        "start": 1504224000,
+        "url": "http://scoreboard.ioi2017.org"
+    },
+    {
+        "description": "Upcoming IOI...",
+        "finish": 1536364800,
+        "id": "ioi2018",
+        "latitude": 36.108824,
+        "longitude": 140.103652,
+        "name": "IOI 2018 -- Tsukuba",
+        "start": 1535760000,
+        "url": "http://scoreboard.ioi2017.org"
+    },
+    {
+        "description": "La XVIII edizione delle Olimpiadi Italiane di Informatica si terrà presso l'ITI G. Marconi di Campobasso dal 13 al 15/09/2018.",
+        "finish": 1537045200,
+        "id": "oii2018",
+        "latitude": 41.560254,
+        "longitude": 14.662716,
+        "name": "OII 2018 -- Campobasso",
+        "start": 1536818400,
+        "url": "http://scoreboard.ioi2017.org"
+    },
+    {
+        "description": "La XVIII edizione delle Olimpiadi Italiane di Informatica si terrà presso l'ITI G. Marconi di Campobasso dal 13 al 15/09/2018.",
+        "finish": 1537045200,
+        "id": "oii2018",
+        "latitude": 41.560254,
+        "longitude": 14.662716,
+        "name": "OII 2018 -- Campobasso",
+        "start": 1536818400,
+        "url": "http://scoreboard.ioi2017.org"
+    },
+    {
+        "description": "La XVIII edizione delle Olimpiadi Italiane di Informatica si terrà presso l'ITI G. Marconi di Campobasso dal 13 al 15/09/2018.",
+        "finish": 1537045200,
+        "id": "oii2018",
+        "latitude": 41.560254,
+        "longitude": 14.662716,
+        "name": "OII 2018 -- Campobasso",
+        "start": 1536818400,
+        "url": "http://scoreboard.ioi2017.org"
+    },
+    {
+        "description": "La XVIII edizione delle Olimpiadi Italiane di Informatica si terrà presso l'ITI G. Marconi di Campobasso dal 13 al 15/09/2018.",
+        "finish": 1537045200,
+        "id": "oii2018",
+        "latitude": 41.560254,
+        "longitude": 14.662716,
+        "name": "OII 2018 -- Campobasso",
+        "start": 1536818400,
+        "url": "http://scoreboard.ioi2017.org"
+    },
+    {
+        "description": "La XVIII edizione delle Olimpiadi Italiane di Informatica si terrà presso l'ITI G. Marconi di Campobasso dal 13 al 15/09/2018.",
+        "finish": 1537045200,
+        "id": "oii2018",
+        "latitude": 41.560254,
+        "longitude": 14.662716,
+        "name": "OII 2018 -- Campobasso",
+        "start": 1536818400,
+        "url": "http://scoreboard.ioi2017.org"
+    },
+    {
+        "description": "La XVIII edizione delle Olimpiadi Italiane di Informatica si terrà presso l'ITI G. Marconi di Campobasso dal 13 al 15/09/2018.",
+        "finish": 1537045200,
+        "id": "oii2018",
+        "latitude": 41.560254,
+        "longitude": 14.662716,
+        "name": "OII 2018 -- Campobasso",
+        "start": 1536818400,
+        "url": "http://scoreboard.ioi2017.org"
+    },
+    {
+        "description": "La XVIII edizione delle Olimpiadi Italiane di Informatica si terrà presso l'ITI G. Marconi di Campobasso dal 13 al 15/09/2018.",
+        "finish": 1537045200,
+        "id": "oii2018",
+        "latitude": 41.560254,
+        "longitude": 14.662716,
+        "name": "OII 2018 -- Campobasso",
+        "start": 1536818400,
+        "url": "http://scoreboard.ioi2017.org"
+    },
+    {
+        "description": "La XVIII edizione delle Olimpiadi Italiane di Informatica si terrà presso l'ITI G. Marconi di Campobasso dal 13 al 15/09/2018.",
+        "finish": 1537045200,
+        "id": "oii2018",
+        "latitude": 41.560254,
+        "longitude": 14.662716,
+        "name": "OII 2018 -- Campobasso",
+        "start": 1536818400,
+        "url": "http://scoreboard.ioi2017.org"
+    },
+    {
+        "description": "La XVIII edizione delle Olimpiadi Italiane di Informatica si terrà presso l'ITI G. Marconi di Campobasso dal 13 al 15/09/2018.",
+        "finish": 1537045200,
+        "id": "oii2018",
+        "latitude": 41.560254,
+        "longitude": 14.662716,
+        "name": "OII 2018 -- Campobasso",
+        "start": 1536818400,
+        "url": "http://scoreboard.ioi2017.org"
+    },
+    {
+        "description": "La XVIII edizione delle Olimpiadi Italiane di Informatica si terrà presso l'ITI G. Marconi di Campobasso dal 13 al 15/09/2018.",
+        "finish": 1537045200,
+        "id": "oii2018",
+        "latitude": 41.560254,
+        "longitude": 14.662716,
+        "name": "OII 2018 -- Campobasso",
+        "start": 1536818400,
+        "url": "http://scoreboard.ioi2017.org"
+    },
+    {
+        "description": "La XVIII edizione delle Olimpiadi Italiane di Informatica si terrà presso l'ITI G. Marconi di Campobasso dal 13 al 15/09/2018.",
+        "finish": 1537045200,
+        "id": "oii2018",
+        "latitude": 41.560254,
+        "longitude": 14.662716,
+        "name": "OII 2018 -- Campobasso",
+        "start": 1536818400,
+        "url": "http://scoreboard.ioi2017.org"
+    },
+    {
+        "description": "La XVIII edizione delle Olimpiadi Italiane di Informatica si terrà presso l'ITI G. Marconi di Campobasso dal 13 al 15/09/2018.",
+        "finish": 1537045200,
+        "id": "oii2018",
+        "latitude": 41.560254,
+        "longitude": 14.662716,
+        "name": "OII 2018 -- Campobasso",
+        "start": 1536818400,
+        "url": "http://scoreboard.ioi2017.org"
+    },
+    {
+        "description": "La XVIII edizione delle Olimpiadi Italiane di Informatica si terrà presso l'ITI G. Marconi di Campobasso dal 13 al 15/09/2018.",
+        "finish": 1537045200,
+        "id": "oii2018",
+        "latitude": 41.560254,
+        "longitude": 14.662716,
+        "name": "OII 2018 -- Campobasso",
+        "start": 1536818400,
+        "url": "http://scoreboard.ioi2017.org"
+    }
 ]
