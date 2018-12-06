@@ -119,7 +119,11 @@ export default class App extends Component {
                       <Text style={styles.title}>{item.name}</Text>
                     </View>
                     <View style={{flex:1}}>
-                      <Text style={styles.small}>Status: {item.status}             Distance: {this.dist(item.latitude, item.longitude)}km</Text>
+                      <Text style={styles.small}>
+                        Status: {item.status}
+                        {"\n"}
+                        Distance: {this.dist(item.latitude, item.longitude)}km
+                      </Text>
                     </View>
                 </View>
 
@@ -172,7 +176,7 @@ const styles = StyleSheet.create({
   small:{
     paddingLeft: 10,
     fontFamily:'Roboto',
-    fontSize:10,
+    fontSize:15,
     color:'green',
     alignItems:'flex-end',
   }
