@@ -94,13 +94,13 @@ export default class App extends Component {
   // }
 
   render() {
-    
+
     if (this.state.isLoading) {
       return (
         <View style={styles.container}>
           <Text style={styles.welcome}>Loading..</Text>
-          
-        
+
+
         </View>
       );
     } else {
@@ -113,16 +113,16 @@ export default class App extends Component {
               <View style={{flex:1, flexDirection: 'row'}}>
                <Image style={styles.img} source={{uri:"https://ranky.olinfo.it/static/"+item.id+".png"}}/>
                <View style={{flex:3, flexDirection: 'row'}}>
-                
+
                 <View Style={{flex:1}}>
                     <View style={{flex:3}}>
                       <Text style={styles.title}>{item.name}</Text>
                     </View>
                     <View style={{flex:1}}>
-                      <Text style={styles.small}>Status:{item.status}             Distance:{this.dist(item.latitude, item.longitude)}km</Text>
+                      <Text style={styles.small}>Status: {item.status}             Distance: {this.dist(item.latitude, item.longitude)}km</Text>
                     </View>
-                </View>    
-                
+                </View>
+
                </View>
                </View>
                </TouchableHighlight>
@@ -161,7 +161,8 @@ const styles = StyleSheet.create({
   },
 
   title:{
-    fontFamily:'serif',
+    paddingLeft: 10,
+    fontFamily:'Roboto',
     fontSize:20,
     color:'black',
     alignItems:'flex-start',
@@ -169,7 +170,8 @@ const styles = StyleSheet.create({
   },
 
   small:{
-    fontFamily:'serif',
+    paddingLeft: 10,
+    fontFamily:'Roboto',
     fontSize:10,
     color:'green',
     alignItems:'flex-end',
