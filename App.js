@@ -9,7 +9,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, FlatList, TouchableHighlight, Alert} from 'react-native';
 import { PermissionsAndroid } from 'react-native';
-import { Card } from 'react-native-material-ui';
+import { Card, Toolbar } from 'react-native-material-ui';
 
 
 export default class App extends Component {
@@ -17,7 +17,8 @@ export default class App extends Component {
     super(props);
 
     this.state = {
-      isLoading: true
+      isLoading: true,
+      searchText: ""
     };
   }
 
@@ -105,8 +106,16 @@ export default class App extends Component {
       );
     } else {
       return (
-        <View style={{flex: 1, paddingTop: 20}}>
-          <FlatList data={this.state.eventList}
+        <View style={{flex: 1}}>
+          <Toolbar
+            centerElement="Choose a contest"
+            searchable={{
+              autoFocus: true,
+              placeholder: "Search",
+              onChangeText: (value) => this.setState({searchText: value}),
+              onSearchClosed: () => this.setState({searchText: ""})
+            }}/>
+          <FlatList extraData={this.state} data={this.state.eventList.filter((item) => item.name.toLowerCase().indexOf(this.state.searchText.toLowerCase()) !== -1)}
               renderItem={({item}) => <View style={{flex:1}}>
               <Card>
               <TouchableHighlight onPress={this._onPressButton} underlayColor="gray">
