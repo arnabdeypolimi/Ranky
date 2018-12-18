@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { StyleSheet, Text, Image, View, FlatList, TouchableHighlight, Alert} from 'react-native';
 import { PermissionsAndroid } from 'react-native';
@@ -100,7 +100,7 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={{flex: 1}}>
         <Toolbar
-          centerElement={"Choose a contest " + (this.state.eventList || []).length}
+          centerElement={"Choose a contest (" + (this.state.eventList || []).length + ")"}
           searchable={{
             autoFocus: true,
             placeholder: "Search",
