@@ -2,19 +2,48 @@ import React, { Component } from 'react';
 
 import { StyleSheet, Text, Image, View, FlatList, TouchableHighlight, Alert} from 'react-native';
 import { Toolbar } from 'react-native-material-ui';
-import Drawer from 'react-native-drawer';
 
-
-const FirstRoute = () => (
-  <View style={[{flex: 1}, { backgroundColor: '#ff4081' }]} />
-);
-const SecondRoute = () => (
-  <View style={[{flex: 1}, { backgroundColor: '#673ab7' }]} />
-);
 
 export default class RankingScreen extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      contests: [],
+      users: [],
+      tasks: [],
+    };
+  }
+
+  componentDidMount() {
+    console.log("here: " + this.props.contest.url);
+    this.fetchApiData(this.props.contest.url)
+  }
+
+  fetchApiData(url) {
+    // contests
+    fetch(url + "/contests", {
+      method: "GET",
+      headers: {'Accept': 'application/json'}
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        this.setState({
+          contests: data
+        })
+      })
+
+    // users
+    fetch(url + "/contests", {
+      method: "GET",
+      headers: {'Accept': 'application/json'}
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        this.setState({
+          users: data
+        })
+      })
   }
 
   render() {
@@ -22,7 +51,7 @@ export default class RankingScreen extends Component {
       <View>
         <Toolbar
           leftElement="menu"
-          onLeftElementPress={() => this._drawer.toggle() }
+          onLeftElementPress={() => this.props.goBack()}
           centerElement={"" + this.props.contest.name}
           searchable={{
             autoFocus: true,
@@ -30,20 +59,8 @@ export default class RankingScreen extends Component {
             onChangeText: (value) => this.setState({searchText: value}),
             onSearchClosed: () => this.setState({searchText: ""})
           }}/>
-        <Drawer
-            type="overlay"
-            openDrawerOffset={0.3}
-            tapToClose={true}
-            content={<View style={{flex: 1, backgroundColor: "blue"}}><Text>test</Text></View>}
-            ref={(ref) => this._drawer = ref }>
-            openDrawerOffset ={0.2} 
-            panCloseMask ={0.2}
-            closedDrawerOffset={-3}
-            styles={drawerStyles}
-            tweenHandler={(ratio) => ({
-            main: { opacity:(2-ratio)/2 }
-            })}
-        </Drawer>
+
+        <Text>{this.state.users.length}</Text>
       </View>
     );
   }
@@ -52,7 +69,6 @@ export default class RankingScreen extends Component {
 const styles = StyleSheet.create({
 
 
-  drawer: { shadowColor: '#000000', shadowOpacity: 0.8, shadowRadius: 3},
   main: {paddingLeft: 3},
 
   img:{

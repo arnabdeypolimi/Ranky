@@ -53,7 +53,10 @@ export default class HomeScreen extends React.Component {
   }
 
   fetchApiData() {
-    fetch("https://ranky.olinfo.it")
+    fetch("https://ranky.olinfo.it", {
+      method: "GET",
+      headers: {'Accept': 'application/json'}
+    })
       .then((response) => response.json())
       .then((data) => {
         this.setState({
@@ -102,7 +105,7 @@ export default class HomeScreen extends React.Component {
     if (this.state.selectedContest != null) {
       // SHOW RANKING OF SINGLE CONTEST
       return (
-        <RankingScreen contest={this.state.selectedContest}/>
+        <RankingScreen contest={this.state.selectedContest} goBack={() => this.setState({selectedContest: null})}/>
       );
     } else {
       // SHOW LIST OF CONTESTS
