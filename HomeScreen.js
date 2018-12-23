@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, Image, View, FlatList, TouchableHighlight, Alert} from 'react-native';
 import { PermissionsAndroid } from 'react-native';
 import { Card, Toolbar } from 'react-native-material-ui';
+import RankingScreen from './RankingScreen';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -10,7 +11,8 @@ export default class HomeScreen extends React.Component {
 
     this.state = {
       searchText: "",
-      isLoading: true
+      isLoading: true,
+      selectedContest: null,
     };
   }
 
@@ -97,51 +99,59 @@ export default class HomeScreen extends React.Component {
   // }
 
   render() {
-    return (
-      <View style={{flex: 1}}>
-        <Toolbar
-          centerElement={"Choose a contest (" + (this.state.eventList || []).length + ")"}
-          searchable={{
-            autoFocus: true,
-            placeholder: "Search",
-            onChangeText: (value) => this.setState({searchText: value}),
-            onSearchClosed: () => this.setState({searchText: ""})
-          }}/>
-        <FlatList
-            data={(this.state.eventList || []).filter((item) => item.name.toLowerCase().indexOf(this.state.searchText.toLowerCase()) !== -1)}
-            onRefresh={() => this.onRefresh()}
-            refreshing={this.state.isLoading}
-            renderItem={({item}) => (
-              <View style={{flex:1}}>
-                <Card>
-                  <TouchableHighlight onPress={() => this.props.navigation.navigate('Ranking')} underlayColor="gray">
-                    <View style={{flex:1, flexDirection: 'row'}}>
-                      <Image style={styles.img} source={{uri:"https://ranky.olinfo.it/static/"+item.id+".png"}}/>
-                      <View style={{flex:3, flexDirection: 'row'}}>
-                        <View Style={{flex:1}}>
-                          <View style={{flex:3}}>
-                            <Text style={styles.title}>{item.name}</Text>
-                          </View>
-                          <View style={{flex:1}}>
-                            <Text style={styles.small}>
-                              Status: {item.status}
-                              {"\n"}
-                              Distance: {this.dist(item.latitude, item.longitude)}km
-                            </Text>
+    if (this.state.selectedContest != null) {
+      // SHOW RANKING OF SINGLE CONTEST
+      return (
+        <RankingScreen contest={this.state.selectedContest}/>
+      );
+    } else {
+      // SHOW LIST OF CONTESTS
+      return (
+        <View style={{flex: 1}}>
+          <Toolbar
+            centerElement={"Choose a contest (" + (this.state.eventList || []).length + ")"}
+            searchable={{
+              autoFocus: true,
+              placeholder: "Search",
+              onChangeText: (value) => this.setState({searchText: value}),
+              onSearchClosed: () => this.setState({searchText: ""})
+            }}/>
+          <FlatList
+              data={(this.state.eventList || []).filter((item) => item.name.toLowerCase().indexOf(this.state.searchText.toLowerCase()) !== -1)}
+              onRefresh={() => this.onRefresh()}
+              refreshing={this.state.isLoading}
+              renderItem={({item}) => (
+                <View style={{flex:1}}>
+                  <Card>
+                    <TouchableHighlight onPress={() => this.setState({selectedContest: item})} underlayColor="gray">
+                      <View style={{flex:1, flexDirection: 'row'}}>
+                        <Image style={styles.img} source={{uri:"https://ranky.olinfo.it/static/"+item.id+".png"}}/>
+                        <View style={{flex:3, flexDirection: 'row'}}>
+                          <View Style={{flex:1}}>
+                            <View style={{flex:3}}>
+                              <Text style={styles.title}>{item.name}</Text>
+                            </View>
+                            <View style={{flex:1}}>
+                              <Text style={styles.small}>
+                                Status: {item.status}
+                                {"\n"}
+                                Distance: {this.dist(item.latitude, item.longitude)}km
+                              </Text>
+                            </View>
                           </View>
                         </View>
                       </View>
-                    </View>
-                  </TouchableHighlight>
-                </Card>
-              </View>
-              // <Button title={item.name + ', dist: ~'
-              //     + this.dist(item.latitude, item.longitude) + 'km'
-              // }/>
-            )}
-            keyExtractor={({id}) => id} />
-      </View>
-    );
+                    </TouchableHighlight>
+                  </Card>
+                </View>
+                // <Button title={item.name + ', dist: ~'
+                //     + this.dist(item.latitude, item.longitude) + 'km'
+                // }/>
+              )}
+              keyExtractor={({id}) => id} />
+        </View>
+      );
+    }
   }
 }
 
