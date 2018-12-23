@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, FlatList, TouchableHighlight, Alert} from 'react-native';
 import { Toolbar } from 'react-native-material-ui';
 import Drawer from 'react-native-drawer';
-import { Dimensions } from 'react-native';
-import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 
 
 const FirstRoute = () => (
@@ -17,14 +15,6 @@ const SecondRoute = () => (
 export default class RankingScreen extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      index: 0,
-      routes: [
-        { key: 'first', title: 'First' },
-        { key: 'second', title: 'Second' },
-      ],
-    };
   }
 
   render() {
@@ -40,24 +30,12 @@ export default class RankingScreen extends Component {
             onChangeText: (value) => this.setState({searchText: value}),
             onSearchClosed: () => this.setState({searchText: ""})
           }}/>
-        {/* <Drawer
+        <Drawer
             openDrawerOffset={0.3}
             tapToClose={true}
             content={<View style={{flex: 1, backgroundColor: "blue"}}><Text>test</Text></View>}
             ref={(ref) => this._drawer = ref }>
-        </Drawer> */}
-        <TabView
-          navigationState={this.state}
-          renderScene={SceneMap({
-            first: FirstRoute,
-            second: SecondRoute,
-          })}
-          onIndexChange={index => this.setState({ index })}
-          initialLayout={{
-            width: Dimensions.get('window').width,
-            height: Dimensions.get('window').height
-          }}
-        />
+        </Drawer>
       </View>
     );
   }
