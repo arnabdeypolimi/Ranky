@@ -128,7 +128,7 @@ export default class HomeScreen extends React.Component {
               renderItem={({item}) => (
                 <View style={{flex:1}}>
                   <Card>
-                    <TouchableHighlight onPress={() => this.setState({selectedContest: item})} underlayColor="gray">
+                    <TouchableHighlight onPress={() => this.setState({selectedContest: item})} underlayColor="#aed6f1">
                       <View style={{flex:1, flexDirection: 'row'}}>
                         <Image style={styles.img} source={{uri:"https://ranky.olinfo.it/static/"+item.id+".png"}}/>
                         <View style={{flex:3, flexDirection: 'row'}}>

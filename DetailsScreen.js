@@ -3,18 +3,13 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, Image, View, FlatList, TouchableHighlight, Alert} from 'react-native';
 import { Toolbar } from 'react-native-material-ui';
 
-import DetailsScreen from './DetailsScreen';
 
-
-export default class RankingScreen extends Component {
+export default class DetailsScreen extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      isLoading: true,
-      contests: [],
-      users: [],
-      tasks: [],
+      isLoading: true
     };
   }
 
@@ -96,65 +91,44 @@ export default class RankingScreen extends Component {
   }
 
   render() {
-    if (this.state.selectedUser != null) {
-      // SHOW DETAILS OF SINGLE USER
-      return (
-        <DetailsScreen contest={this.props.contest} user={this.state.selectedUser} goBack={() => this.setState({selectedUser: null})}/>
-      );
-    } else {
-      // SHOW RANKING OF ALL USERS
-      return (
-        <View style={{flex: 1}}>
-          <Toolbar
-            leftElement="menu"
-            onLeftElementPress={() => this.props.goBack()}
-            centerElement={"" + this.props.contest.name}
-            searchable={{
-              autoFocus: true,
-              placeholder: "Search",
-              onChangeText: (value) => this.setState({searchText: value}),
-              onSearchClosed: () => this.setState({searchText: ""})
-            }}/>
+    return (
+      <View style={{flex: 1}}>
+        <Toolbar
+          leftElement="arrow-back"
+          onLeftElementPress={() => this.props.goBack()}
+          centerElement={"Details of user"}/>
 
-          <FlatList
-            style={{marginTop: 5}}
-            data={this.state.mat}
-            onRefresh={() => this.onRefresh()}
-            refreshing={this.state.isLoading}
-            renderItem={({item, index}) => (
-              <View style={{flex:1}}>
-                <TouchableHighlight style={{height: 50, marginBottom: 5}} onPress={() => this.setState({selectedUser: item.user})} underlayColor="#aed6f1">
-                  <View style={{flex:1, flexDirection: 'row'}}>
-                    <Text style={{width: 35, textAlign: "center", textAlignVertical: "center", fontSize: 18}}>{index + 1}</Text>
+        <Text>{this.props.user.f_name} {this.props.user.l_name}</Text>
 
-                    <View style={{paddingLeft: 10}}>
-                      <Image style={styles.img} source={{
-                        uri: this.props.contest.url + "/faces/" + item.user["id"],
-                        headers: {
-                          "Accept": "image/png,image/*"
-                        }
-                      }}/>
-                    </View>
+        <Image style={{
+    flex: 1,
+    width:50,
+    height:50,
+    alignItems:'center',
+    borderRadius: 25
+  }} source={{
+          uri: this.props.contest.url + "/faces/" + this.props.user["id"],
+          headers: {
+            "Accept": "image/png,image/*"
+          }
+        }}/>
 
-                    <Text style={{flex: 1, fontSize: 20, textAlignVertical: "center", paddingLeft: 10}}>
-                      {item.user["f_name"] + " " + item.user["l_name"][0] + "."}
-                    </Text>
+        <Text>team: {this.props.user.team}</Text>
 
-                    <View style={{flexDirection: "row", paddingBottom: 10, paddingRight: 5}}>
-                      <Text style={{fontSize: 28, textAlignVertical: "bottom"}}>
-                        {Math.floor(item.total)}
-                      </Text>
-
-                      <Text style={{fontSize: 14, textAlignVertical: "bottom"}}>/600</Text>
-                    </View>
-                  </View>
-                </TouchableHighlight>
-              </View>
-            )}
-            keyExtractor={(item) => item.user.id}/>
-        </View>
-      );
-    }
+        <Image style={{
+    flex: 1,
+    width:50,
+    height:50,
+    alignItems:'center',
+    borderRadius: 25
+  }} source={{
+          uri: "https://ranky.olinfo.it/static/flags/" + this.props.user.team + ".png",
+          headers: {
+            "Accept": "image/png,image/*"
+          }
+        }}/>
+      </View>
+    );
   }
 }
 
