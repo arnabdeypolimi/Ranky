@@ -21,28 +21,60 @@ export default class RankingScreen extends Component {
   }
 
   fetchApiData(url) {
-    // contests
-    fetch(url + "/contests", {
+    fetch(url + "/users", {
       method: "GET",
       headers: {'Accept': 'application/json'}
     })
-      .then((response) => response.text())
-      .then((data) => {
-        this.setState({
-          contests: data
-        })
-      })
+      .then((response) => response.json())
+      .then((usersData) => {
 
-    // users
-    fetch(url + "/contests", {
-      method: "GET",
-      headers: {'Accept': 'application/json'}
-    })
-      .then((response) => response.text())
-      .then((data) => {
-        this.setState({
-          users: data
+        fetch(url + "/history", {
+          method: "GET",
+          headers: {'Accept': 'application/json'}
         })
+          .then((response) => response.json())
+          .then((historyData) => {
+
+            // finished downloading everything
+
+            console.log(usersData.length);
+            console.log(historyData.length);
+
+            var mat = [];
+            var id = {};
+
+            // console.log(usersData);
+            for (var u in usersData) {
+              id[u] = mat.length;
+              mat.push({});
+            }
+
+            for (var h of historyData) {
+              console.log(h);
+              console.log(id[h[0]]);
+              // h[0] == username
+              // h[1] == taskname
+              // h[2] == timestamp
+              // h[3] == best score til now
+              mat[
+                id[h[0]]  // row
+              ][
+                h[1]   // column
+              ] = h[3];
+            }
+
+            for (var u in usersData) {
+              var t = 0;
+              console.log(JSON.stringify(mat[id[u]]));
+              for (var score in Object.values(mat[id[u]])) {
+                t += parseFloat(score);
+              }
+              console.log(t);
+              mat[id[u]]["total"] = t;
+            }
+
+            this.setState({mat: mat});
+          })
       })
   }
 
@@ -60,7 +92,7 @@ export default class RankingScreen extends Component {
             onSearchClosed: () => this.setState({searchText: ""})
           }}/>
 
-        <Text>{this.state.users.length}</Text>
+        <Text>{this.mat}</Text>
       </View>
     );
   }

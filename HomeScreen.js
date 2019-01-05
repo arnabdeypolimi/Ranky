@@ -76,6 +76,8 @@ export default class HomeScreen extends React.Component {
   }
 
   dist(lat2, lon2) {
+    if (this.state.location == null) return 0;
+
     var lat1 = this.state.location.latitude;
     var lon1 = this.state.location.longitude;
 
