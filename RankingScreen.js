@@ -116,24 +116,14 @@ export default class RankingScreen extends Component {
               <Card>
                 <TouchableHighlight onPress={() => this.setState({selectedContest: item})} underlayColor="gray">
                   <View style={{flex:1, flexDirection: 'row'}}>
-                    <View style={{flex:5, flexDirection: 'row'}}>
-                      <Text>a</Text>
-                    </View>
+                    <Text style={style.title}>{index + 1}</Text>
                     <Image style={styles.img} source={{uri:"https://ranky.olinfo.it/static/"+item.id+".png"}}/>
-                    <View style={{flex:3, flexDirection: 'row'}}>
-                      <View style={{flex:1}}>
-                        <View style={{flex:3}}>
-                          <Text style={styles.title}>
-                            {index + 1} — {item.user["f_name"]} {item.user["l_name"]}
-                          </Text>
-                        </View>
-                        <View style={{flex:1}}>
-                          <Text style={styles.small}>
+                    <Text style={styles.title}>
+                            {item.user["f_name"]} {item.user["l_name"]}
+                    </Text>
+                    <Text style={styles.title}>
                             {Math.floor(item.total)}/600
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
+                    </Text>
                   </View>
                 </TouchableHighlight>
               </Card>
@@ -152,8 +142,8 @@ const styles = StyleSheet.create({
 
   img:{
     flex: 1,
-    width:100,
-    height:100,
+    width:50,
+    height:50,
     alignItems:'center'
   },
 
@@ -176,7 +166,7 @@ const styles = StyleSheet.create({
     fontSize:20,
     color:'black',
     alignItems:'flex-start',
-    fontWeight:'bold',
+    // fontWeight:'bold',
   },
 
   small:{
