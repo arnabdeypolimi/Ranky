@@ -66,12 +66,20 @@ export default class RankingScreen extends Component {
             for (var u in usersData) {
               var t = 0;
               console.log(JSON.stringify(mat[id[u]]));
-              for (var score in Object.values(mat[id[u]])) {
+              for (var score of Object.values(mat[id[u]])) {
                 t += parseFloat(score);
               }
               console.log(t);
               mat[id[u]]["total"] = t;
+              mat[id[u]]["user"] = u;
+              console.log(JSON.stringify(mat[id[u]]));
             }
+
+            mat.sort((a, b) => {
+              if (a.total > b.total) return -1;
+              if (b.total > a.total) return +1;
+              return 0;
+            })
 
             this.setState({mat: mat});
           })
@@ -92,7 +100,13 @@ export default class RankingScreen extends Component {
             onSearchClosed: () => this.setState({searchText: ""})
           }}/>
 
-        <Text>{this.mat}</Text>
+        <FlatList
+          data={this.state.mat}
+          renderItem={({item}) => (
+            <Text>----------------
+            {"\n"}
+            {item.user} — {item.total}</Text>
+          )}/>
       </View>
     );
   }
