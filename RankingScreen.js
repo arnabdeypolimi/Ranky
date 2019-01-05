@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { StyleSheet, Text, Image, View, FlatList, TouchableHighlight, Alert} from 'react-native';
-import { Toolbar } from 'react-native-material-ui';
+import { Card, Toolbar } from 'react-native-material-ui';
 
 
 export default class RankingScreen extends Component {
@@ -9,6 +9,7 @@ export default class RankingScreen extends Component {
     super(props);
 
     this.state = {
+      isLoading: true,
       contests: [],
       users: [],
       tasks: [],
@@ -71,24 +72,30 @@ export default class RankingScreen extends Component {
               }
               console.log(t);
               mat[id[u]]["total"] = t;
-              mat[id[u]]["user"] = u;
+              mat[id[u]]["user"] = usersData[u];
+              mat[id[u]]["user"]["id"] = u;
               console.log(JSON.stringify(mat[id[u]]));
             }
 
-            mat.sort((a, b) => {
-              if (a.total > b.total) return -1;
-              if (b.total > a.total) return +1;
-              return 0;
-            })
+            mat.sort((a, b) => b.total - a.total);
 
-            this.setState({mat: mat});
+            this.setState({
+              mat,
+              isLoading: false
+            });
           })
       })
   }
 
+  onRefresh() {
+    this.setState({ isLoading: true }, function() {
+      this.fetchApiData()
+    });
+  }
+
   render() {
     return (
-      <View>
+      <View style={{flex: 1}}>
         <Toolbar
           leftElement="menu"
           onLeftElementPress={() => this.props.goBack()}
@@ -102,11 +109,37 @@ export default class RankingScreen extends Component {
 
         <FlatList
           data={this.state.mat}
-          renderItem={({item}) => (
-            <Text>----------------
-            {"\n"}
-            {item.user} — {item.total}</Text>
-          )}/>
+          onRefresh={this.onRefresh}
+          refreshing={this.state.isLoading}
+          renderItem={({item, index}) => (
+            <View style={{flex:1}}>
+              <Card>
+                <TouchableHighlight onPress={() => this.setState({selectedContest: item})} underlayColor="gray">
+                  <View style={{flex:1, flexDirection: 'row'}}>
+                    <View style={{flex:5, flexDirection: 'row'}}>
+                      <Text>a</Text>
+                    </View>
+                    <Image style={styles.img} source={{uri:"https://ranky.olinfo.it/static/"+item.id+".png"}}/>
+                    <View style={{flex:3, flexDirection: 'row'}}>
+                      <View style={{flex:1}}>
+                        <View style={{flex:3}}>
+                          <Text style={styles.title}>
+                            {index + 1} — {item.user["f_name"]} {item.user["l_name"]}
+                          </Text>
+                        </View>
+                        <View style={{flex:1}}>
+                          <Text style={styles.small}>
+                            {Math.floor(item.total)}/600
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </TouchableHighlight>
+              </Card>
+            </View>
+          )}
+          keyExtractor={(item) => item.user.id}/>
       </View>
     );
   }

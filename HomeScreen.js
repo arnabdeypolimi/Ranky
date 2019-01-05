@@ -132,7 +132,7 @@ export default class HomeScreen extends React.Component {
                       <View style={{flex:1, flexDirection: 'row'}}>
                         <Image style={styles.img} source={{uri:"https://ranky.olinfo.it/static/"+item.id+".png"}}/>
                         <View style={{flex:3, flexDirection: 'row'}}>
-                          <View Style={{flex:1}}>
+                          <View style={{flex:1}}>
                             <View style={{flex:3}}>
                               <Text style={styles.title}>{item.name}</Text>
                             </View>
