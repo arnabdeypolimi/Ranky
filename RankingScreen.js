@@ -12,26 +12,26 @@ export default class RankingScreen extends Component {
 
     this.state = {
       isLoading: true,
-      contests: [],
-      users: [],
-      tasks: [],
+      mat: null,
+      selectedUser: null,
+      searchText: ""
     };
   }
 
   componentDidMount() {
     console.log("here: " + this.props.contest.url);
-    this.fetchApiData(this.props.contest.url)
+    this.fetchApiData()
   }
 
-  fetchApiData(url) {
-    fetch(url + "/users/", {
+  fetchApiData() {
+    fetch(this.props.contest.url + "/users/", {
       method: "GET",
       headers: {'Accept': 'application/json'}
     })
       .then((response) => response.json())
       .then((usersData) => {
 
-        fetch(url + "/history", {
+        fetch(this.props.contest.url + "/history", {
           method: "GET",
           headers: {'Accept': 'application/json'}
         })
@@ -79,7 +79,19 @@ export default class RankingScreen extends Component {
               console.log(JSON.stringify(mat[id[u]]));
             }
 
+            // sort by total score, decreasing
             mat.sort((a, b) => b.total - a.total);
+
+            let cur_rank = 1;
+            for (let i = 0; i < mat.length; i++) {
+              if (i == 0 || mat[i]["total"] < mat[i - 1]["total"]) {
+                mat[i]["rank"] = cur_rank;
+              } else {
+                mat[i]["rank"] = mat[i - 1]["rank"];
+              }
+
+              cur_rank += 1;
+            }
 
             this.setState({
               mat,
@@ -91,7 +103,7 @@ export default class RankingScreen extends Component {
 
   onRefresh() {
     this.setState({ isLoading: true }, function() {
-      this.fetchApiData(this.props.contest.url);
+      this.fetchApiData();
     });
   }
 
@@ -117,30 +129,35 @@ export default class RankingScreen extends Component {
             }}/>
 
           <FlatList
-            style={{marginTop: 5}}
             data={this.state.mat}
             onRefresh={() => this.onRefresh()}
             refreshing={this.state.isLoading}
             renderItem={({item, index}) => (
               <View style={{flex:1}}>
-                <TouchableHighlight style={{height: 50, marginBottom: 5}} onPress={() => this.setState({selectedUser: item.user})} underlayColor="#aed6f1">
+                <TouchableHighlight style={{height: 56, paddingTop: 3, paddingBottom: 3}} onPress={() => this.setState({selectedUser: item.user})} underlayColor="#aed6f1">
                   <View style={{flex:1, flexDirection: 'row'}}>
-                    <Text style={{width: 35, textAlign: "center", textAlignVertical: "center", fontSize: 18}}>{index + 1}</Text>
+                    <Text style={{width: 35, textAlign: "center", textAlignVertical: "center", fontSize: 18}}>{item.rank}</Text>
 
-                    <View style={{paddingLeft: 10}}>
+                    <View style={{paddingLeft: 5}}>
                       <Image style={styles.img} source={{
-                        uri: this.props.contest.url + "/faces/" + item.user["id"],
+                        uri: this.props.contest.url + "/faces/" + item.user.id,
                         headers: {
                           "Accept": "image/png,image/*"
                         }
                       }}/>
                     </View>
 
-                    <Text style={{flex: 1, fontSize: 20, textAlignVertical: "center", paddingLeft: 10}}>
-                      {item.user["f_name"] + " " + item.user["l_name"][0] + "."}
-                    </Text>
+                    <View style={{flex: 1, flexDirection: "column", paddingLeft: 10}}>
+                      <Text style={{flex: 1, fontSize: 20, lineHeight: 20, paddingTop: 5}}>
+                        {item.user["f_name"] + " " + item.user["l_name"][0] + "."}
+                      </Text>
 
-                    <View style={{flexDirection: "row", paddingBottom: 10, paddingRight: 5}}>
+                      <Text style={{flex: 1, fontSize: 12, fontFamily: "monospace"}}>
+                        {item.user["team"]}
+                      </Text>
+                    </View>
+
+                    <View style={{flexDirection: "row", paddingBottom: 8, paddingRight: 5}}>
                       <Text style={{fontSize: 28, textAlignVertical: "bottom"}}>
                         {Math.floor(item.total)}
                       </Text>
