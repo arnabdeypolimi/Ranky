@@ -1,7 +1,7 @@
 import React from 'react';
 import firebase from 'react-native-firebase';
 
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Alert } from 'react-native';
 
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 
