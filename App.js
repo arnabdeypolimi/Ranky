@@ -71,6 +71,12 @@ export default class App extends React.Component {
   }
 
   async createNotificationListeners() {
+    const channel = new firebase.notifications.Android.Channel('test-channel', 'Test Channel', firebase.notifications.Android.Importance.Max)
+      .setDescription('My apps test channel');
+
+    // Create the channel
+    firebase.notifications().android.createChannel(channel);
+
     /*
     * Triggered when a particular notification has been received in foreground
     * */
@@ -105,13 +111,16 @@ export default class App extends React.Component {
   }
 
   showAlert(title, body) {
-    Alert.alert(
-      title, body,
-      [
-          { text: 'OK', onPress: () => console.log('OK Pressed') },
-      ],
-      { cancelable: false },
-    );
+    const notification = new firebase.notifications.Notification()
+      .setNotificationId('notificationId')
+      .setTitle(title)
+      .setBody(body)
+      .setData({
+        key1: 'value1',
+        key2: 'value2',
+      });
+
+    firebase.notifications().displayNotification(notification);
   }
 
   render() {
