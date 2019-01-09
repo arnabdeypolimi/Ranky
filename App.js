@@ -81,16 +81,14 @@ export default class App extends React.Component {
     * Triggered when a particular notification has been received in foreground
     * */
     this.notificationListener = firebase.notifications().onNotification((notification) => {
-        const { title, body } = notification;
-        this.showAlert(title, body);
+        this.showAlert(notification);
     });
 
     /*
     * If your app is in background, you can listen for when a notification is clicked / tapped / opened as follows:
     * */
     this.notificationOpenedListener = firebase.notifications().onNotificationOpened((notificationOpen) => {
-        const { title, body } = notificationOpen.notification;
-        this.showAlert(title, body);
+        this.showAlert(notificationOpen.notification);
     });
 
     /*
@@ -98,8 +96,7 @@ export default class App extends React.Component {
     * */
     const notificationOpen = await firebase.notifications().getInitialNotification();
     if (notificationOpen) {
-        const { title, body } = notificationOpen.notification;
-        this.showAlert(title, body);
+        this.showAlert(notificationOpen.notification);
     }
     /*
     * Triggered for data only payload in foreground
@@ -110,16 +107,8 @@ export default class App extends React.Component {
     });
   }
 
-  showAlert(title, body) {
-    const notification = new firebase.notifications.Notification()
-      .setNotificationId('notificationId')
-      .setTitle(title)
-      .setBody(body)
-      .setData({
-        key1: 'value1',
-        key2: 'value2',
-      });
-
+  showAlert(notification) {
+    notification.android.setChannelId("test-channel");
     firebase.notifications().displayNotification(notification);
   }
 
