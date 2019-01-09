@@ -17,8 +17,9 @@ export default class TaskScoreChart extends React.Component {
     let data = [ 0, 0, 0, 0, 0, 0 ], i = 0;
     let views = [];
 
-    console.log(JSON.stringify(this.props.tasks));
-    for (let t in this.props.tasks) {
+    for (let i in this.props.tasks) {
+      let t = this.props.tasks[i];
+
       taskscore[t.short_name] = 0;
 
       views.push(
@@ -28,15 +29,15 @@ export default class TaskScoreChart extends React.Component {
       );
     }
 
-    console.log("here2");
-    console.log(this.props.subs);
-    for (let s in this.props.subs) {
-      console.log("here3");
-      console.log(JSON.stringify(this.props.subs[s]));
-      taskscore[this.props.subs[s]["task"]] = Math.max(taskscore[this.props.subs[s]["task"]], this.props.subs[s]["score"]);
+    for (let i in this.props.subs) {
+      let s = this.props.subs[i];
+
+      taskscore[s["task"]] = Math.max(taskscore[s["task"]], s["score"]);
     }
 
-    for (let t in this.props.tasks) {
+    for (let i in this.props.tasks) {
+      let t = this.props.tasks[i];
+
       data[i] = taskscore[t.short_name];
       i += 1;
     }

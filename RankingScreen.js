@@ -148,7 +148,7 @@ export default class RankingScreen extends Component {
                     </View>
 
                     <View style={{flex: 1, flexDirection: "column", paddingLeft: 10}}>
-                      <Text style={{flex: 1, fontSize: 20, lineHeight: 20, paddingTop: 5}}>
+                      <Text numberOfLines={1} style={{flex: 1, fontSize: 20, lineHeight: 20, paddingTop: 5}}>
                         {item.user["f_name"] + " " + item.user["l_name"][0] + "."}
                       </Text>
 

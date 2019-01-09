@@ -81,7 +81,7 @@ export default class HomeScreen extends React.Component {
     var lat1 = this.state.location.latitude;
     var lon1 = this.state.location.longitude;
 
-    var R = 6371e3; // metres
+    var R = 6371; // km
     var φ1 = lat1 * Math.PI / 180;
     var φ2 = lat2 * Math.PI / 180;
     var Δφ = (lat2 - lat1) * Math.PI / 180;
@@ -92,7 +92,7 @@ export default class HomeScreen extends React.Component {
             Math.sin(Δλ/2) * Math.sin(Δλ/2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    return (R * c / 1000).toFixed(2);
+    return (R * c).toFixed(2);
   }
 
   _onPressButton() {

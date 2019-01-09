@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { ScrollView, RefreshControl, ListView, StyleSheet, Text, Image, ImageBackground, View, FlatList, TouchableHighlight, Alert, ToastAndroid} from 'react-native';
 import { Toolbar, Button, Card } from 'react-native-material-ui';
 import TaskScoreChart from './TaskScoreChart';
+import SubmissionListView from './SubmissionListView';
 
 
 export default class DetailsScreen extends Component {
@@ -34,12 +35,19 @@ export default class DetailsScreen extends Component {
           .then((tasksData) => {
 
             let ar = [];
-            for (let key in Object.keys(tasksData)) {
-              console.log(key);
+            for (let key in tasksData) {
               ar.push(tasksData[key]);
             }
 
-            ar.sort((a, b) => b.order - a.order);
+            ar.sort((a, b) => {
+              if (a.contest > b.contest) {
+                return 1;
+              } else if (a.contest < b.contest) {
+                return -1;
+              } else {
+                return a.order - b.order;
+              }
+            });
             subsData.sort((a, b) => b.time - a.time);
 
             console.log("rerendering...");
@@ -57,20 +65,6 @@ export default class DetailsScreen extends Component {
     this.setState({ isLoading: true }, function() {
       this.fetchApiData();
     });
-  }
-
-  formatTime(s) {
-    let h = Math.floor(s / 3600);
-    let m = Math.floor(s % 3600 / 60);
-    s = s - m * 60 - h * 3600;
-
-    let t = "" + h + ":";
-    if (m < 10) t += "0";
-    t += "" + m + ":";
-    if (s < 10) t += "0";
-    t += "" + s;
-
-    return t;
   }
 
   render() {
@@ -115,37 +109,9 @@ export default class DetailsScreen extends Component {
             </ImageBackground>
           </TouchableHighlight>
 
-          <Card>
-            <TaskScoreChart tasks={this.state.tasksData} subs={this.state.subsData}/>
-          </Card>
+          <TaskScoreChart tasks={this.state.tasksData} subs={this.state.subsData}/>
 
-          <Card>
-            <View style={{flex: 1, flexDirection: "row", paddingLeft: 10, paddingTop: 5, paddingRight: 10}}>
-              <Text style={{flex: 1, fontFamily: 'monospace', fontWeight: 'bold'}}>Time</Text>
-              <Text style={{flex: 1, fontFamily: 'monospace', fontWeight: 'bold'}}>Task</Text>
-              <Text style={{flex: 1, fontFamily: 'monospace', fontWeight: 'bold'}}>Score</Text>
-            </View>
-
-            <FlatList
-              data={this.state.subsData}
-              renderItem={({item}) => (
-                <TouchableHighlight style={{height: 30, paddingTop: 2, paddingBottom: 2, paddingLeft: 10, paddingRight: 10}} onPress={() => ToastAndroid.show('A pikachu appeared nearby !', ToastAndroid.SHORT)} underlayColor="#aed6f1">
-                  <View style={{flex:1, flexDirection: 'row'}}>
-                    <Text style={{flex: 1}}>
-                      {this.formatTime(item["time"] - this.props.contest["start"])}
-                    </Text>
-
-                    <Text style={{flex: 1}}>
-                      {item["task"]}
-                    </Text>
-
-                    <Text style={{flex: 1}}>
-                      {item["score"]}
-                    </Text>
-                  </View>
-                </TouchableHighlight>
-              )}/>
-          </Card>
+          <SubmissionListView subs={this.state.subsData} contest={this.props.contest} />
         </ScrollView>
 
       </View>
