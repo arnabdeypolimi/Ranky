@@ -122,6 +122,16 @@ export default class RankingScreen extends Component {
     });
   }
 
+  performSearch(query) {
+    for (let i in this.state.mat) {
+      console.log(i);
+      if (this.state.mat[i].user["f_name"].toLowerCase().startsWith(query.toLowerCase())) {
+        this.flatListRef.scrollToIndex({index: i});
+        return;
+      }
+    }
+  }
+
   render() {
     const { navigation } = this.props;
     const contest = navigation.getParam('contest');
@@ -135,11 +145,11 @@ export default class RankingScreen extends Component {
           searchable={{
             autoFocus: true,
             placeholder: "Search",
-            onChangeText: (value) => this.setState({searchText: value}),
-            onSearchClosed: () => this.setState({searchText: ""})
+            onChangeText: (value) => this.performSearch(value)
           }}/>
 
         <FlatList
+          ref={(ref) => this.flatListRef = ref }
           data={this.state.mat}
           onRefresh={() => this.onRefresh()}
           refreshing={this.state.isLoading}
@@ -168,8 +178,8 @@ export default class RankingScreen extends Component {
                     </Text>
                   </View>
 
-                  <View style={{flexDirection: "row", paddingBottom: 8, paddingRight: 5}}>
-                    <Text style={{fontSize: 28, textAlignVertical: "bottom"}}>
+                  <View style={{flexDirection: "row", paddingBottom: 12, paddingRight: 5}}>
+                    <Text style={{fontSize: 22, textAlignVertical: "bottom"}}>
                       {Math.floor(item.total)}
                     </Text>
 

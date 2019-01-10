@@ -110,7 +110,7 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={{flex: 1}}>
         <Toolbar
-          centerElement={"Choose a contest (" + (this.state.eventList || []).length + ")"}
+          centerElement="Choose a contest"
           searchable={{
             autoFocus: true,
             placeholder: "Search",
