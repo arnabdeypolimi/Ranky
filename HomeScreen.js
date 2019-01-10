@@ -65,8 +65,6 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    console.log("mounted");
-
     // request location if needed, and then re-render
     this.requestLocation()
 

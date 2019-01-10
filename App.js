@@ -135,6 +135,7 @@ export default class App extends React.Component {
   }
 
   showAlert(notification) {
+    console.log("notifying...");
     notification.android.setChannelId("test-channel");
     firebase.notifications().displayNotification(notification);
   }

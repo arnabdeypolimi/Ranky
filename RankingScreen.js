@@ -21,7 +21,6 @@ export default class RankingScreen extends Component {
     const { navigation } = this.props;
     const contest = navigation.getParam('contest');
 
-    console.log("here: " + contest.url);
     this.fetchApiData()
   }
 
@@ -45,21 +44,15 @@ export default class RankingScreen extends Component {
 
             // finished downloading everything
 
-            console.log(usersData.length);
-            console.log(historyData.length);
-
             var mat = [];
             var id = {};
 
-            // console.log(usersData);
             for (var u in usersData) {
               id[u] = mat.length;
               mat.push({});
             }
 
             for (var h of historyData) {
-              console.log(h);
-              console.log(id[h[0]]);
               // h[0] == username
               // h[1] == taskname
               // h[2] == timestamp
@@ -73,15 +66,12 @@ export default class RankingScreen extends Component {
 
             for (var u in usersData) {
               var t = 0;
-              console.log(JSON.stringify(mat[id[u]]));
               for (var score of Object.values(mat[id[u]])) {
                 t += parseFloat(score);
               }
-              console.log(t);
               mat[id[u]]["total"] = t;
               mat[id[u]]["user"] = usersData[u];
               mat[id[u]]["user"]["id"] = u;
-              console.log(JSON.stringify(mat[id[u]]));
             }
 
             // sort by total score, decreasing
@@ -123,8 +113,7 @@ export default class RankingScreen extends Component {
   }
 
   performSearch(query) {
-    for (let i in this.state.mat) {
-      console.log(i);
+    for (let i = 0; i < this.state.mat.length; i++) {
       if (this.state.mat[i].user["f_name"].toLowerCase().startsWith(query.toLowerCase())) {
         this.flatListRef.scrollToIndex({index: i});
         return;
@@ -153,6 +142,9 @@ export default class RankingScreen extends Component {
           data={this.state.mat}
           onRefresh={() => this.onRefresh()}
           refreshing={this.state.isLoading}
+          getItemLayout={(data, index) => (
+            {length: 56, offset: 56 * index, index}
+          )}
           renderItem={({item, index}) => (
             <View style={{flex:1}}>
               <TouchableHighlight style={{height: 56, paddingTop: 3, paddingBottom: 3}} onPress={() => this.chooseUser(item.user)} underlayColor="#aed6f1">
