@@ -1,24 +1,51 @@
 import React from 'react';
 import firebase from 'react-native-firebase';
 
-import { AsyncStorage, Alert } from 'react-native';
+import { AsyncStorage, View, Switch, Text } from 'react-native';
+import { RadioButton } from 'react-native-material-ui';
 
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator, createDrawerNavigator, createAppContainer } from 'react-navigation';
 
 import HomeScreen from './HomeScreen';
 import RankingScreen from './RankingScreen';
+import DetailsScreen from './DetailsScreen';
+import PictureScreen from './PictureScreen';
 
+const CustomDrawerContentComponent = (props) => {
+  const { navigation } = props;
 
-const RootStack = createStackNavigator(
-  {
+  return (
+    <View style={{flexDirection: "column", paddingLeft: 10, paddingTop: 10}}>
+      <Text style={{fontWeight: "bold", paddingBottom: 20}}>Notification settings</Text>
+
+      <View style={{flexDirection: "row"}}>
+        <View style={{flex: 1}}>
+          <Text style={{fontSize: 18}}>Boh</Text>
+        </View>
+        <View style={{flex: 1}}>
+          <Switch value={false}></Switch>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const RootStack = createStackNavigator({
     Home: {
       screen: HomeScreen,
     },
     Ranking: {
-      screen: RankingScreen,
+      screen: createDrawerNavigator({ranking:{screen:RankingScreen}}, {
+        contentComponent: CustomDrawerContentComponent
+      }),
     },
-  },
-  {
+    User: {
+      screen: DetailsScreen,
+    },
+    Picture: {
+      screen: PictureScreen,
+    },
+  }, {
     initialRouteName: 'Home',
     headerMode: 'none'
   }

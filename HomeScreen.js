@@ -3,7 +3,6 @@ import React from 'react';
 import { StyleSheet, Text, Image, View, FlatList, TouchableHighlight, Alert} from 'react-native';
 import { PermissionsAndroid } from 'react-native';
 import { Card, Toolbar } from 'react-native-material-ui';
-import RankingScreen from './RankingScreen';
 
 export default class HomeScreen extends React.Component {
   constructor(props) {
@@ -12,7 +11,6 @@ export default class HomeScreen extends React.Component {
     this.state = {
       searchText: "",
       isLoading: true,
-      selectedContest: null,
     };
   }
 
@@ -95,8 +93,13 @@ export default class HomeScreen extends React.Component {
     return (R * c).toFixed(2);
   }
 
-  _onPressButton() {
-    // this.props.navigation.navigate('Ranking');
+  chooseContest(contest) {
+    const { navigation } = this.props;
+
+    // save contest in options?
+    navigation.navigate('Ranking', {
+      contest
+    });
   }
 
   // _onLongPressButton() {
@@ -104,59 +107,51 @@ export default class HomeScreen extends React.Component {
   // }
 
   render() {
-    if (this.state.selectedContest != null) {
-      // SHOW RANKING OF SINGLE CONTEST
-      return (
-        <RankingScreen contest={this.state.selectedContest} goBack={() => this.setState({selectedContest: null})}/>
-      );
-    } else {
-      // SHOW LIST OF CONTESTS
-      return (
-        <View style={{flex: 1}}>
-          <Toolbar
-            centerElement={"Choose a contest (" + (this.state.eventList || []).length + ")"}
-            searchable={{
-              autoFocus: true,
-              placeholder: "Search",
-              onChangeText: (value) => this.setState({searchText: value}),
-              onSearchClosed: () => this.setState({searchText: ""})
-            }}/>
-          <FlatList
-              data={(this.state.eventList || []).filter((item) => item.name.toLowerCase().indexOf(this.state.searchText.toLowerCase()) !== -1)}
-              onRefresh={() => this.onRefresh()}
-              refreshing={this.state.isLoading}
-              renderItem={({item}) => (
-                <View style={{flex:1}}>
-                  <Card>
-                    <TouchableHighlight onPress={() => this.setState({selectedContest: item})} underlayColor="#aed6f1">
-                      <View style={{flex:1, flexDirection: 'row'}}>
-                        <Image style={styles.img} source={{uri:"https://ranky.olinfo.it/static/"+item.id+".png"}}/>
-                        <View style={{flex:3, flexDirection: 'row'}}>
+    return (
+      <View style={{flex: 1}}>
+        <Toolbar
+          centerElement={"Choose a contest (" + (this.state.eventList || []).length + ")"}
+          searchable={{
+            autoFocus: true,
+            placeholder: "Search",
+            onChangeText: (value) => this.setState({searchText: value}),
+            onSearchClosed: () => this.setState({searchText: ""})
+          }}/>
+        <FlatList
+            data={(this.state.eventList || []).filter((item) => item.name.toLowerCase().indexOf(this.state.searchText.toLowerCase()) !== -1)}
+            onRefresh={() => this.onRefresh()}
+            refreshing={this.state.isLoading}
+            renderItem={({item}) => (
+              <View style={{flex:1}}>
+                <Card>
+                  <TouchableHighlight onPress={() => this.chooseContest(item)} underlayColor="#aed6f1">
+                    <View style={{flex:1, flexDirection: 'row'}}>
+                      <Image style={styles.img} source={{uri:"https://ranky.olinfo.it/static/"+item.id+".png"}}/>
+                      <View style={{flex:3, flexDirection: 'row'}}>
+                        <View style={{flex:1}}>
+                          <View style={{flex:3}}>
+                            <Text style={styles.title}>{item.name}</Text>
+                          </View>
                           <View style={{flex:1}}>
-                            <View style={{flex:3}}>
-                              <Text style={styles.title}>{item.name}</Text>
-                            </View>
-                            <View style={{flex:1}}>
-                              <Text style={styles.small}>
-                                Status: {item.status}
-                                {"\n"}
-                                Distance: {this.dist(item.latitude, item.longitude)}km
-                              </Text>
-                            </View>
+                            <Text style={styles.small}>
+                              Status: {item.status}
+                              {"\n"}
+                              Distance: {this.dist(item.latitude, item.longitude)}km
+                            </Text>
                           </View>
                         </View>
                       </View>
-                    </TouchableHighlight>
-                  </Card>
-                </View>
-                // <Button title={item.name + ', dist: ~'
-                //     + this.dist(item.latitude, item.longitude) + 'km'
-                // }/>
-              )}
-              keyExtractor={({id}) => id} />
-        </View>
-      );
-    }
+                    </View>
+                  </TouchableHighlight>
+                </Card>
+              </View>
+              // <Button title={item.name + ', dist: ~'
+              //     + this.dist(item.latitude, item.longitude) + 'km'
+              // }/>
+            )}
+            keyExtractor={({id}) => id} />
+      </View>
+    );
   }
 }
 

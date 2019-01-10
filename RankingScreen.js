@@ -13,25 +13,30 @@ export default class RankingScreen extends Component {
     this.state = {
       isLoading: true,
       mat: null,
-      selectedUser: null,
-      searchText: ""
+      searchText: "",
     };
   }
 
   componentDidMount() {
-    console.log("here: " + this.props.contest.url);
+    const { navigation } = this.props;
+    const contest = navigation.getParam('contest');
+
+    console.log("here: " + contest.url);
     this.fetchApiData()
   }
 
   fetchApiData() {
-    fetch(this.props.contest.url + "/users/", {
+    const { navigation } = this.props;
+    const contest = navigation.getParam('contest');
+
+    fetch(contest.url + "/users/", {
       method: "GET",
       headers: {'Accept': 'application/json'}
     })
       .then((response) => response.json())
       .then((usersData) => {
 
-        fetch(this.props.contest.url + "/history", {
+        fetch(contest.url + "/history", {
           method: "GET",
           headers: {'Accept': 'application/json'}
         })
@@ -107,77 +112,80 @@ export default class RankingScreen extends Component {
     });
   }
 
+  chooseUser(user) {
+    const { navigation } = this.props;
+    const contest = navigation.getParam("contest");
+
+    navigation.navigate("User", {
+      user,
+      contest
+    });
+  }
+
   render() {
-    if (this.state.selectedUser != null) {
-      // SHOW DETAILS OF SINGLE USER
-      return (
-        <DetailsScreen contest={this.props.contest} user={this.state.selectedUser} goBack={() => this.setState({selectedUser: null})}/>
-      );
-    } else {
-      // SHOW RANKING OF ALL USERS
-      return (
-        <View style={{flex: 1}}>
-          <Toolbar
-            leftElement="menu"
-            onLeftElementPress={() => this.props.goBack()}
-            centerElement={"" + this.props.contest.name}
-            searchable={{
-              autoFocus: true,
-              placeholder: "Search",
-              onChangeText: (value) => this.setState({searchText: value}),
-              onSearchClosed: () => this.setState({searchText: ""})
-            }}/>
+    const { navigation } = this.props;
+    const contest = navigation.getParam('contest');
 
-          <FlatList
-            data={this.state.mat}
-            onRefresh={() => this.onRefresh()}
-            refreshing={this.state.isLoading}
-            renderItem={({item, index}) => (
-              <View style={{flex:1}}>
-                <TouchableHighlight style={{height: 56, paddingTop: 3, paddingBottom: 3}} onPress={() => this.setState({selectedUser: item.user})} underlayColor="#aed6f1">
-                  <View style={{flex:1, flexDirection: 'row'}}>
-                    <Text style={{width: 35, textAlign: "center", textAlignVertical: "center", fontSize: 18}}>{item.rank}</Text>
+    return (
+      <View style={{flex: 1}}>
+        <Toolbar
+          leftElement="tune"
+          onLeftElementPress={() => this.props.navigation.toggleDrawer()}
+          centerElement={"" + contest.name}
+          searchable={{
+            autoFocus: true,
+            placeholder: "Search",
+            onChangeText: (value) => this.setState({searchText: value}),
+            onSearchClosed: () => this.setState({searchText: ""})
+          }}/>
 
-                    <View style={{paddingLeft: 5}}>
-                      <Image style={styles.img} source={{
-                        uri: this.props.contest.url + "/faces/" + item.user.id,
-                        headers: {
-                          "Accept": "image/png,image/*"
-                        }
-                      }}/>
-                    </View>
+        <FlatList
+          data={this.state.mat}
+          onRefresh={() => this.onRefresh()}
+          refreshing={this.state.isLoading}
+          renderItem={({item, index}) => (
+            <View style={{flex:1}}>
+              <TouchableHighlight style={{height: 56, paddingTop: 3, paddingBottom: 3}} onPress={() => this.chooseUser(item.user)} underlayColor="#aed6f1">
+                <View style={{flex:1, flexDirection: 'row'}}>
+                  <Text style={{width: 35, textAlign: "center", textAlignVertical: "center", fontSize: 18}}>{item.rank}</Text>
 
-                    <View style={{flex: 1, flexDirection: "column", paddingLeft: 10}}>
-                      <Text numberOfLines={1} style={{flex: 1, fontSize: 20, lineHeight: 20, paddingTop: 5}}>
-                        {item.user["f_name"] + " " + item.user["l_name"][0] + "."}
-                      </Text>
-
-                      <Text style={{flex: 1, fontSize: 12, fontFamily: "monospace"}}>
-                        {item.user["team"]}
-                      </Text>
-                    </View>
-
-                    <View style={{flexDirection: "row", paddingBottom: 8, paddingRight: 5}}>
-                      <Text style={{fontSize: 28, textAlignVertical: "bottom"}}>
-                        {Math.floor(item.total)}
-                      </Text>
-
-                      <Text style={{fontSize: 14, textAlignVertical: "bottom"}}>/600</Text>
-                    </View>
+                  <View style={{paddingLeft: 5}}>
+                    <Image style={styles.img} source={{
+                      uri: contest.url + "/faces/" + item.user.id,
+                      headers: {
+                        "Accept": "image/png,image/*"
+                      }
+                    }}/>
                   </View>
-                </TouchableHighlight>
-              </View>
-            )}
-            keyExtractor={(item) => item.user.id}/>
-        </View>
-      );
-    }
+
+                  <View style={{flex: 1, flexDirection: "column", paddingLeft: 10}}>
+                    <Text numberOfLines={1} style={{flex: 1, fontSize: 20, lineHeight: 20, paddingTop: 5}}>
+                      {item.user["f_name"] + " " + item.user["l_name"][0] + "."}
+                    </Text>
+
+                    <Text style={{flex: 1, fontSize: 12, fontFamily: "monospace"}}>
+                      {item.user["team"]}
+                    </Text>
+                  </View>
+
+                  <View style={{flexDirection: "row", paddingBottom: 8, paddingRight: 5}}>
+                    <Text style={{fontSize: 28, textAlignVertical: "bottom"}}>
+                      {Math.floor(item.total)}
+                    </Text>
+
+                    <Text style={{fontSize: 14, textAlignVertical: "bottom"}}>/600</Text>
+                  </View>
+                </View>
+              </TouchableHighlight>
+            </View>
+          )}
+          keyExtractor={(item) => item.user.id}/>
+      </View>
+    );
   }
 }
 
 const styles = StyleSheet.create({
-
-
   main: {paddingLeft: 3},
 
   img:{
