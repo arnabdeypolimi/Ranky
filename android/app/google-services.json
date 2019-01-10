@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:379421993270:android:bdda3018bb58ca0a",
+        "mobilesdk_app_id": "1:379421993270:android:a33b52558cae5136",
         "android_client_info": {
-          "package_name": "com.awesomeproject"
+          "package_name": "com.ranky"
         }
       },
       "oauth_client": [

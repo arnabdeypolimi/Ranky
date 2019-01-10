@@ -1,4 +1,4 @@
-package com.awesomeproject;
+package com.ranky;
 
 import android.app.Application;
 
