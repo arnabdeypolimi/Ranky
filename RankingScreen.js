@@ -129,7 +129,14 @@ export default class RankingScreen extends Component {
   }
 
   favoriteUser(user) {
-    this._favoriteUsers.push(user["id"]);
+    let index = this._favoriteUsers.indexOf(user["id"]);
+    if (index > -1) {
+      // remove this user from favorites
+      this._favoriteUsers.splice(index, 1);
+    } else {
+      // add this user to favorites
+      this._favoriteUsers.push(user["id"]);
+    }
 
     try {
       AsyncStorage.setItem('ranky@favoriteUsers', JSON.stringify(this._favoriteUsers))
