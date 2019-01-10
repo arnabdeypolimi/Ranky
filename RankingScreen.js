@@ -113,8 +113,11 @@ export default class RankingScreen extends Component {
   }
 
   performSearch(query) {
+    query = query.toLowerCase();
+
     for (let i = 0; i < this.state.mat.length; i++) {
-      if (this.state.mat[i].user["f_name"].toLowerCase().startsWith(query.toLowerCase())) {
+      if (this.state.mat[i].user["f_name"].toLowerCase().startsWith(query)
+          || this.state.mat[i].user["l_name"].toLowerCase().startsWith(query)) {
         this.flatListRef.scrollToIndex({index: i});
         return;
       }
@@ -142,6 +145,7 @@ export default class RankingScreen extends Component {
           data={this.state.mat}
           onRefresh={() => this.onRefresh()}
           refreshing={this.state.isLoading}
+          keyboardShouldPersistTaps='handled'
           getItemLayout={(data, index) => (
             {length: 56, offset: 56 * index, index}
           )}

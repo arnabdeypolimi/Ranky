@@ -39,8 +39,10 @@ export default class DetailsScreen extends Component {
           .then((tasksData) => {
 
             let ar = [];
+            let best = {};
             for (let key in tasksData) {
               ar.push(tasksData[key]);
+              best[tasksData[key]["short_name"]] = 0;
             }
 
             ar.sort((a, b) => {
@@ -53,6 +55,15 @@ export default class DetailsScreen extends Component {
               }
             });
             subsData.sort((a, b) => b.time - a.time);
+
+            for (let i = subsData.length - 1; i >= 0; i--) {
+              if (best[subsData[i].task] < subsData[i].score) {
+                subsData[i]["delta"] = (subsData[i].score - best[subsData[i].task]).toFixed(2);
+                best[subsData[i].task] = subsData[i].score;
+              } else {
+                subsData[i]["delta"] = 0;
+              }
+            }
 
             this.setState({
               tasksData: ar,

@@ -26,6 +26,7 @@ export default class SubmissionListView extends Component {
           <Text style={{flex: 1, fontFamily: 'monospace', fontWeight: 'bold'}}>Time</Text>
           <Text style={{flex: 1, fontFamily: 'monospace', fontWeight: 'bold'}}>Task</Text>
           <Text style={{flex: 1, fontFamily: 'monospace', fontWeight: 'bold'}}>Score</Text>
+          <Text style={{flex: 1, fontFamily: 'monospace', fontWeight: 'bold'}}>Improve</Text>
         </View>
 
         <FlatList
@@ -45,6 +46,10 @@ export default class SubmissionListView extends Component {
 
                 <Text style={{flex: 1}}>
                   {item["score"]}
+                </Text>
+
+                <Text style={{flex: 1, fontWeight: "bold", color: "green"}}>
+                  {item["delta"] == 0 ? "" : ("+" + item["delta"])}
                 </Text>
               </View>
             </TouchableHighlight>
