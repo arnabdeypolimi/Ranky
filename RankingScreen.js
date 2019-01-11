@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import { AsyncStorage, StyleSheet, Text, Image, View, FlatList, TouchableHighlight, Alert } from 'react-native';
-import { Toolbar } from 'react-native-material-ui';
+import { AsyncStorage, StyleSheet, Text, Image, View, FlatList, TouchableHighlight, ToastAndroid } from 'react-native';
+import { Toolbar, Icon } from 'react-native-material-ui';
 
 import DetailsScreen from './DetailsScreen';
 
@@ -136,6 +136,7 @@ export default class RankingScreen extends Component {
     } else {
       // add this user to favorites
       this._favoriteUsers.push(user["id"]);
+      ToastAndroid.show("You will be notified for this contestant's activity", ToastAndroid.SHORT);
     }
 
     try {
@@ -191,13 +192,17 @@ export default class RankingScreen extends Component {
                   </View>
 
                   <View style={{ flex: 1, flexDirection: "column", paddingLeft: 10 }}>
-                    <Text numberOfLines={1} style={{ flex: 1, fontSize: 20, lineHeight: 20, paddingTop: 5, fontStyle: (this.state.favUsers.includes(item.user["id"])) ? "italic" : "normal" }}>
+                    <Text numberOfLines={1} style={{ flex: 1, fontSize: 20, lineHeight: 20, paddingTop: 5}}>
                       {item.user["f_name"] + " " + item.user["l_name"][0] + "."}
                     </Text>
 
                     <Text style={{ flex: 1, fontSize: 12, fontFamily: "monospace" }}>
                       {item.user["team"]}
                     </Text>
+                  </View>
+
+                  <View style={{paddingTop: 10}}>
+                    {this.state.favUsers.includes(item.user["id"]) ? <Icon name="favorite"/> : null}
                   </View>
 
                   <View style={{ flexDirection: "row", paddingBottom: 12, paddingRight: 5 }}>

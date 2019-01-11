@@ -31,6 +31,9 @@ export default class SubmissionListView extends Component {
 
         <FlatList
           data={this.props.subs}
+          getItemLayout={(data, index) => (
+            { length: 30, offset: 30 * index, index }
+          )}
           renderItem={({item}) => (
             <TouchableHighlight style={{height: 30, paddingTop: 2, paddingBottom: 2, paddingLeft: 10, paddingRight: 10}}
                                 onPress={() => ToastAndroid.show('A pikachu appeared nearby !', ToastAndroid.SHORT)}
