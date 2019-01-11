@@ -124,6 +124,7 @@ export default class HomeScreen extends React.Component {
               }}
               title={event.name}
               description={event.description}
+              onCalloutPress={() => this.chooseContest(event)}
             />
           ))}
           </MapView>
