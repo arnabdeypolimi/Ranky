@@ -16,10 +16,12 @@ class CustomDrawerContentComponent extends React.Component {
     const { navigation } = this.props;
 
     return (
-      <View style={{flexDirection: "column", paddingLeft: 10, paddingTop: 10}}>
-        <Text style={{fontWeight: "bold", paddingBottom: 20}}>Notification settings</Text>
+      <View style={{flexDirection: "column"}}>
+      <View style={{height: 200, backgroundColor: '#212F3C'}}>
+      </View>
+        <Text style={{fontWeight: "bold", paddingBottom: 20,  paddingLeft: 10, paddingTop: 10}}>Notification settings</Text>
 
-        <View style={{flexDirection: "row"}}>
+        <View style={{flexDirection: "row", paddingLeft: 10, paddingTop: 10}}>
           <View style={{flex: 1}}>
             <Text style={{fontSize: 18}}>Boh</Text>
           </View>
