@@ -18,6 +18,7 @@ export default class RankingScreen extends Component {
   }
 
   componentDidMount() {
+    const { navigation } = this.props;
     const contest = navigation.getParam("contest");
 
     // subscribe to the topic
