@@ -179,7 +179,7 @@ export default class RankingScreen extends Component {
     return (
       <View style={{ flex: 1 }}>
         <Toolbar
-          leftElement="tune"
+          leftElement="menu"
           onLeftElementPress={() => this.props.navigation.toggleDrawer()}
           centerElement={"" + contest.name}
           searchable={{
