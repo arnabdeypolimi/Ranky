@@ -23,7 +23,7 @@ export default class RankingScreen extends Component {
     const contest = navigation.getParam("contest");
 
     // subscribe to the topic
-    firebase.messaging().subscribeToTopic(contest);
+    firebase.messaging().subscribeToTopic(contest.id);
 
     this.fetchApiData();
   }
