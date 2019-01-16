@@ -1,8 +1,8 @@
 import React from 'react';
 import firebase from 'react-native-firebase';
 
-import { AsyncStorage, View, Switch, Text, StatusBar } from 'react-native';
-import { RadioButton } from 'react-native-material-ui';
+import { AsyncStorage, View, Switch, Text, StatusBar, ImageBackground } from 'react-native';
+import { Button } from 'react-native-material-ui';
 
 import { createStackNavigator, createDrawerNavigator, createAppContainer } from 'react-navigation';
 
@@ -12,22 +12,71 @@ import DetailsScreen from './DetailsScreen';
 import PictureScreen from './PictureScreen';
 
 class CustomDrawerContentComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      favorites: [],
+      notifying: true
+    };
+  }
+
+  async componentWillMount() {
+    try {
+      var favorites = await AsyncStorage.getItem("ranky@favoriteUsers");
+
+      if (favorites !== null) {
+        console.log("aaaa: " + favorites);
+        favorites = JSON.parse(favorites);
+        console.log("aaaa: " + favorites);
+      } else {
+        favorites = [];
+      }
+    } catch (error) {
+      favorites = [];  // some error
+    }
+
+    this.setState({
+      favorites
+    })
+  }
+
   render() {
     const { navigation } = this.props;
 
     return (
       <View style={{flexDirection: "column"}}>
-      <View style={{height: 200, backgroundColor: '#212F3C'}}>
-      </View>
-        <Text style={{fontWeight: "bold", paddingBottom: 20,  paddingLeft: 10, paddingTop: 10}}>Notification settings</Text>
+        <ImageBackground style={{ height: 160 }} source={{
+            uri: "https://ranky.olinfo.it/static/" + navigation.state.params.contest.id + ".png",
+            headers: {
+              "Accept": "image/png,image/*"
+            }
+          }}>
+        </ImageBackground>
+
+        <Text style={{fontSize: 18, fontWeight: "bold", paddingBottom: 10,  paddingLeft: 10, paddingTop: 15}}>Notification settings</Text>
 
         <View style={{flexDirection: "row", paddingLeft: 10, paddingTop: 10}}>
           <View style={{flex: 1}}>
-            <Text style={{fontSize: 18}}>Boh</Text>
+            <Text style={{fontSize: 18}}>Contest events</Text>
           </View>
           <View style={{flex: 1}}>
-            <Switch value={false}></Switch>
+            <Switch onPress={() => this.setState({notifying: !this.state.notifying})} value={this.state.notifying}></Switch>
           </View>
+        </View>
+
+        <View style={{flexDirection: "row", paddingLeft: 10, paddingTop: 10}}>
+          <View style={{flex: 1}}>
+            <Text style={{fontSize: 18}}>Favorite users: {this.state.favorites.length}</Text>
+          </View>
+          <Button onPress={() => {
+            AsyncStorage.setItem('ranky@favoriteUsers', JSON.stringify([]))
+              .then(() => {
+                this.setState({
+                  favorites: []
+                })
+              })
+          }} text="clear"></Button>
         </View>
       </View>
     );

@@ -19,59 +19,50 @@ export default class DetailsScreen extends Component {
     this.fetchApiData()
   }
 
-  fetchApiData() {
+  async fetchApiData() {
     const { navigation } = this.props;
     const contest = navigation.getParam('contest');
     const user = navigation.getParam('user');
+    const tasksData = navigation.getParam('tasks');
 
-    fetch(contest.url + "/sublist/" + user.id, {
+    const subsData = await fetch(contest.url + "/sublist/" + user.id, {
       method: "GET",
       headers: { 'Accept': 'application/json' }
     })
-      .then((response) => response.json())
-      .then((subsData) => {
+      .then((response) => response.json());
 
-        fetch(contest.url + "/tasks/", {
-          method: "GET",
-          headers: { 'Accept': 'application/json' }
-        })
-          .then((response) => response.json())
-          .then((tasksData) => {
+    let ar = [];
+    let best = {};
+    for (let key in tasksData) {
+      ar.push(tasksData[key]);
+      best[tasksData[key]["short_name"]] = 0;
+    }
 
-            let ar = [];
-            let best = {};
-            for (let key in tasksData) {
-              ar.push(tasksData[key]);
-              best[tasksData[key]["short_name"]] = 0;
-            }
+    ar.sort((a, b) => {
+      if (a.contest > b.contest) {
+        return 1;
+      } else if (a.contest < b.contest) {
+        return -1;
+      } else {
+        return a.order - b.order;
+      }
+    });
+    subsData.sort((a, b) => b.time - a.time);
 
-            ar.sort((a, b) => {
-              if (a.contest > b.contest) {
-                return 1;
-              } else if (a.contest < b.contest) {
-                return -1;
-              } else {
-                return a.order - b.order;
-              }
-            });
-            subsData.sort((a, b) => b.time - a.time);
+    for (let i = subsData.length - 1; i >= 0; i--) {
+      if (best[subsData[i].task] < subsData[i].score) {
+        subsData[i]["delta"] = (subsData[i].score - best[subsData[i].task]).toFixed(2);
+        best[subsData[i].task] = subsData[i].score;
+      } else {
+        subsData[i]["delta"] = 0;
+      }
+    }
 
-            for (let i = subsData.length - 1; i >= 0; i--) {
-              if (best[subsData[i].task] < subsData[i].score) {
-                subsData[i]["delta"] = (subsData[i].score - best[subsData[i].task]).toFixed(2);
-                best[subsData[i].task] = subsData[i].score;
-              } else {
-                subsData[i]["delta"] = 0;
-              }
-            }
-
-            this.setState({
-              tasksData: ar,
-              subsData,
-              isLoading: false
-            });
-          })
-      })
+    this.setState({
+      tasksData: ar,
+      subsData,
+      isLoading: false
+    });
   }
 
   onRefresh() {

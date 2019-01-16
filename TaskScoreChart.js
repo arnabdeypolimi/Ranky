@@ -14,7 +14,7 @@ export default class TaskScoreChart extends React.Component {
 
   render() {
     let taskscore = {};
-    let data = [ 0, 0, 0, 0, 0, 0 ], i = 0;
+    let data = [ 0 ], i = 0;
     let views = [];
 
     for (let i in this.props.tasks) {
@@ -43,7 +43,7 @@ export default class TaskScoreChart extends React.Component {
     }
 
     return (
-      <View style={{height: 150}}>
+      <View style={{height: 150, paddingTop: 5}}>
         <BarChart
           style={{ height: 120 }}
           svg={{ fill }}

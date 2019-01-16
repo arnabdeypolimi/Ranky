@@ -18,6 +18,11 @@ export default class RankingScreen extends Component {
   }
 
   componentDidMount() {
+    const contest = navigation.getParam("contest");
+
+    // subscribe to the topic
+    firebase.messaging().subscribeToTopic(contest);
+
     this.fetchApiData();
   }
 
@@ -31,11 +36,22 @@ export default class RankingScreen extends Component {
       })
       .then((response) => response.json());
 
+    const tasksData = await fetch(contest.url + "/tasks/", {
+      method: "GET",
+      headers: { 'Accept': 'application/json' }
+    })
+      .then((response) => response.json());
+
     const historyData = await fetch(contest.url + "/history", {
         method: "GET",
         headers: { 'Accept': 'application/json' }
       })
       .then((response) => response.json());
+
+    let totScore = 0;
+    for (let i in tasksData) {
+      totScore += tasksData[i].max_score;
+    }
 
     try {
       const favorites = await AsyncStorage.getItem("ranky@favoriteUsers");
@@ -96,6 +112,8 @@ export default class RankingScreen extends Component {
     this.setState({
       mat,
       favUsers: this._favoriteUsers,
+      tasksData,
+      totScore,
       isLoading: false
     });
   }
@@ -112,7 +130,8 @@ export default class RankingScreen extends Component {
 
     navigation.navigate("User", {
       user,
-      contest
+      contest,
+      tasks: this.state.tasksData
     });
   }
 
@@ -136,7 +155,7 @@ export default class RankingScreen extends Component {
     } else {
       // add this user to favorites
       this._favoriteUsers.push(user["id"]);
-      ToastAndroid.show("You will be notified for this contestant's activity", ToastAndroid.SHORT);
+      ToastAndroid.show("You will be notified for this contestant's activity", ToastAndroid.LONG);
     }
 
     try {
@@ -180,7 +199,9 @@ export default class RankingScreen extends Component {
             <View style={{ flex: 1 }}>
               <TouchableHighlight style={{ height: 56, paddingTop: 3, paddingBottom: 3 }} onPress={() => this.chooseUser(item.user)} onLongPress={() => this.favoriteUser(item.user)} underlayColor="#aed6f1">
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                  <Text style={{ width: 35, textAlign: "center", textAlignVertical: "center", fontSize: 18 }}>{item.rank}</Text>
+                  <Text style={{ width: 35, textAlign: "center", textAlignVertical: "center", fontWeight: "bold", fontSize: item.rank < 10 ? 24 : 18 }}>
+                    {item.rank}
+                  </Text>
 
                   <View style={{ paddingLeft: 5 }}>
                     <Image style={styles.img} source={{
@@ -202,7 +223,11 @@ export default class RankingScreen extends Component {
                   </View>
 
                   <View style={{paddingTop: 10}}>
-                    {this.state.favUsers.includes(item.user["id"]) ? <Icon name="favorite"/> : null}
+                    {this.state.favUsers.includes(item.user["id"])
+                      ?
+                      <Icon name="favorite" style={{color: "#B80000"}}/>
+                      :
+                      null}
                   </View>
 
                   <View style={{ flexDirection: "row", paddingBottom: 12, paddingRight: 5 }}>
@@ -210,7 +235,7 @@ export default class RankingScreen extends Component {
                       {Math.floor(item.total)}
                     </Text>
 
-                    <Text style={{ fontSize: 14, textAlignVertical: "bottom" }}>/600</Text>
+                    <Text style={{ fontSize: 14, textAlignVertical: "bottom" }}>/{this.state.totScore}</Text>
                   </View>
                 </View>
               </TouchableHighlight>
