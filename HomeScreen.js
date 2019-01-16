@@ -145,7 +145,8 @@ export default class HomeScreen extends React.Component {
               onSearchClosed: () => this.setState({searchText: ""})
             }}/>
           <FlatList
-              data={(this.state.eventList || []).filter((item) => item.name.toLowerCase().indexOf(this.state.searchText.toLowerCase()) !== -1)}
+              keyboardShouldPersistTaps='handled'
+              data={(this.state.eventList || []).filter((item) => (item.hidden == null || item.hidden == false) && item.name.toLowerCase().indexOf(this.state.searchText.toLowerCase()) !== -1)}
               onRefresh={() => this.onRefresh()}
               refreshing={this.state.isLoading}
               renderItem={({item}) => (
