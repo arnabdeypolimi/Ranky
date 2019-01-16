@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import firebase from 'react-native-firebase';
 
 import { AsyncStorage, StyleSheet, Text, Image, View, FlatList, TouchableHighlight, ToastAndroid } from 'react-native';
 import { Toolbar, Icon } from 'react-native-material-ui';
